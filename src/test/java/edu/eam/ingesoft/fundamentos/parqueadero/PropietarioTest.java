@@ -10,9 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class PropietarioTest {
 
+    private Propietario propietario;
+
     @BeforeEach
     public void setUp() {
-   
         propietario = new Propietario("123456789", "Juan Pérez");
     }
 
