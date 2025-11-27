@@ -35,6 +35,11 @@ public class Parqueadero {
      */
     public Propietario buscarPropietario(String cedula) {
         // TODO: Implementar método usando foreach
+        for (Propietario pro: propietarios){
+            if (pro.getCedula().equals(cedula))
+                return pro;
+
+        }
         return null;
     }
 
@@ -46,6 +51,10 @@ public class Parqueadero {
      */
     public Vehiculo buscarVehiculo(String placa) {
         // TODO: Implementar método usando foreach
+        for (Vehiculo vehi: vehiculos){
+            if (vehi.getPlaca().equals(placa))
+                return vehi;
+        }
         return null;
     }
 
@@ -60,6 +69,11 @@ public class Parqueadero {
      */
     public boolean registrarPropietario(String cedula, String nombre) {
         // TODO: Implementar método con validación usando if
+        Propietario pro = buscarPropietario(cedula);
+        if (pro == null){
+            Propietario propietario = new Propietario(cedula, nombre);
+            return propietarios.add(propietario);
+        }
         return false;
     }
 
@@ -77,6 +91,14 @@ public class Parqueadero {
      */
     public boolean registrarVehiculo(String placa, int modelo, String color, String cedula, String tipo) {
         // TODO: Implementar método con validaciones usando if
+        Propietario pro = buscarPropietario(cedula);
+        if (pro != null){
+            Vehiculo v = buscarVehiculo(placa);
+            if (v == null){
+                Vehiculo vehi = new Vehiculo(placa, modelo, color, pro, tipo);
+                return vehiculos.add(vehi);
+            }
+        }
         return false;
     }
 
@@ -91,6 +113,11 @@ public class Parqueadero {
      */
     public boolean acumularHorasCliente(String cedula, int horas) {
         // TODO: Implementar método con delegación
+        Propietario pro = buscarPropietario(cedula);
+        if (pro != null){
+            pro.acumularHoras(horas);
+        return true;
+        }
         return false;
     }
 
@@ -116,6 +143,19 @@ public class Parqueadero {
      */
     public double registrarServicio(String placa, int horaIngreso, int horaSalida) {
         // TODO: Implementar método con múltiples validaciones usando if
+        if (horaSalida > horaIngreso){
+            if (horaIngreso >= 1 && horaIngreso <= 22 && horaSalida >= 2 && horaSalida <= 23){
+                Vehiculo vehi = buscarVehiculo(placa);
+                if (vehi != null){
+                    Servicio servi = new Servicio(horaIngreso, horaSalida, vehi);
+                    servicios.add(servi);
+                    vehi.getPropietario().acumularHoras(horaSalida - horaIngreso);
+                    return servi.getCosto();
+                }
+
+            }
+
+        }
         return -1;
     }
 
@@ -128,7 +168,11 @@ public class Parqueadero {
      */
     public double calcularTotalRecaudado() {
         // TODO: Implementar método usando foreach con acumulador
-        return 0;
+        double total = 0;
+        for (Servicio ser: servicios){
+            total += ser.getCosto();
+        }
+        return total;
     }
 
     /**
@@ -138,7 +182,14 @@ public class Parqueadero {
      */
     public int contarClientesVIP() {
         // TODO: Implementar método usando foreach con contador y if
-        return 0;
+        int contador = 0;
+
+        for (Propietario pro: propietarios){
+            if (pro.obtenerCategoria().equals("VIP"))
+                contador++;
+        }
+
+        return contador;
     }
 
     /**
@@ -148,7 +199,17 @@ public class Parqueadero {
      */
     public Propietario obtenerClienteMasHoras() {
         // TODO: Implementar método usando foreach para buscar máximo
-        return null;
+        int maximo = 0;
+        Propietario max = null;
+
+        for (Propietario pro: propietarios){
+            if (pro.getHorasAcumuladas() > maximo){
+                max = pro;
+                maximo = pro.getHorasAcumuladas();
+            }
+        }
+
+        return max;
     }
 
     // ==================== GETTERS PARA LAS LISTAS ====================

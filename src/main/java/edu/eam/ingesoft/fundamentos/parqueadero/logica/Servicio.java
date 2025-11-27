@@ -25,6 +25,9 @@ public class Servicio {
     public Servicio(int horaIngreso, int horaSalida, Vehiculo vehiculo) {
         // TODO: Implementar constructor
         // Pista: Asignar atributos y usar calcularCosto() para el costo
+        this.horaIngreso = horaIngreso;
+        this.horaSalida = horaSalida;
+        this.vehiculo = vehiculo;
     }
 
     // ==================== GETTERS ====================
@@ -54,6 +57,7 @@ public class Servicio {
      * @return El costo calculado del servicio
      */
     public double getCosto() {
+        calcularCosto();
         return costo;
     }
 
@@ -65,7 +69,7 @@ public class Servicio {
      */
     public int calcularHoras() {
         // TODO: Implementar método
-        return 0;
+        return horaSalida - horaIngreso;
     }
 
     /**
@@ -81,6 +85,7 @@ public class Servicio {
      */
     public double calcularCosto() {
         // TODO: Implementar método
-        return 0;
+        costo = calcularHoras() * vehiculo.obtenerTarifaHora() * (1 - vehiculo.getPropietario().obtenerDescuento());
+        return costo;
     }
 }

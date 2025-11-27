@@ -29,7 +29,7 @@ public class ParqueaderoTest {
 
     @Test
     public void testRegistrarPropietarioDuplicado() {
-        parqueadero.registrarPropietario("123456789", "Juan Pérez");
+        parqueadero.registrarPropietario("123456789", "Juan Perez");
         boolean resultado = parqueadero.registrarPropietario("123456789", "Otro Nombre");
         assertFalse(resultado);
     }
